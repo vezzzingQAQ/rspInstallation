@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XXS</title>
+    <script src="./support/p5.min.js"></script>
+    <script src="./src/xh.js"></script>
+    <script src="./support/axios.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background-color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <script>
+        //code by vezzzing 2022.3.18-2022.3.19
+        var source="http://192.168.43.189:4999/";
+        var gridSize;
+        var controlPoint;
+        var xhCircleList = [];
+        var controlList = [];
+        function createCircle(xh) {
+            // c_circle = new XhCircle(createVector(xh.position.x + gridSize * 2.5, xh.position.y + gridSize * 5));
+            c_circle = new XhCircle(createVector(xh.position.x, xh.position.y));
+            xhCircleList.push(c_circle);
+        }
+        function setup() {
+            createCanvas(windowWidth, windowHeight);
+            noStroke();
+            gridSize = 15;
+            let xhx = width / 2 - gridSize * 2.5;
+            let xhy = height / 2 - gridSize * 5.2;
+            controlPoint = new Xh(xhx, xhy, 8, '#111111');
+            xhCircle = createCircle(controlPoint);
+            for(let i=0;i<13;i++){
+                let c_control_circle=new ControlCircle(
+                    controlPoint,
+                    createVector(random(0,width),random(0,height)),
+                    random(100,255)
+                );
+                controlList.push(c_control_circle);
+            }
+            controlList[0].command=10;
+            controlList[1].command=20;
+            controlList[2].command=11;
+
+            controlList[3].command=21;
+            controlList[4].command=16;
+            controlList[5].command=17;
+
+            controlList[6].command=22;
+            controlList[7].command=18;
+            controlList[8].command=19;
+            controlList[9].command=23;
+            controlList[10].command=15;
+            controlList[11].command=14;
+            controlList[12].command=100;
+
+
+            // controlList[1].command=20;
+            // controlList[1].command=20;
+            // controlList[1].command=20;
+            // controlList[1].command=20;
+            // controlList[1].command=20;
+            // controlList[1].command=20;
+            // controlList[1].command=20;
+            // controlList[1].command=20;
+            // controlList[1].command=20;
+            // controlList[1].command=20;
+            // controlList[1].command=20;
+            // controlList[1].command=20;
+            // controlList[1].command=20;
+            // controlList[1].command=20;
+
+        }
+        function draw() {
+            background(255,50);
+            controlPoint.followMouse()
+            controlPoint.update()
+            controlPoint.display();
+            controlPoint.y = sin(frameCount / 30) * 10 + height / 2 - gridSize * 5.2;
+            if (frameCount % 3 == 0) {
+                xhCircle = createCircle(controlPoint);
+            }
+            // 绘制时序源
+            for (c_circle of xhCircleList) {
+                c_circle.run();
+                if (c_circle.isDead) {
+                    xhCircleList.splice(xhCircleList.indexOf(c_circle), 1);
+                }
+            }
+            // 绘制控制球
+            for(c_control_circle of controlList){
+                c_control_circle.run();
+            }
+        }
+        function keyPressed() {
+            let xhx = controlPoint.position.x;
+            let xhy = controlPoint.position.y;
+            controlPoint = new Xh(xhx, xhy, 8, '#111111');
+        }
+        function touchEnded() {
+            let xhx = controlPoint.position.x;
+            let xhy = controlPoint.position.y;
+            controlPoint = new Xh(xhx, xhy, 8, '#111111');
+        }   
+    </script>
+</body>
+
+</html>

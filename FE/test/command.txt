@@ -1,0 +1,15 @@
+{
+    "command" : "conn",
+    "id" : "vezzzingQAQ", 
+    "server" : "vezzzingServer", 
+    "timestamp" : 232323123
+}
+
+{
+"vez":"vezzzing",
+"name":"vez",
+"age":2,
+"hob":{
+"l":1,
+"list":[1,2,3,4,5]
+}}
